@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartHome Manager</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <header>
+    <div>
+
+      <h1>SmartHome Manager</h1>
+      <p>Control your virtual home from one dashboard</p>
+
+    </div>
+    <button id="logoutBtn" class="danger" hidden>Logout</button>
+  </header>
+
+  <main>
+    <!-- Auth Section -->
+    <section id="authSection" class="panel">
+      
+      <h2>Welcome Back</h2>
+      <div class="two-columns">
+
+        <form id="registerForm">
+          <h3>Create an account</h3>
+          <input name="name" placeholder="Full name" required>
+          <input name="email" type="email" placeholder="Email address" required>
+          <input name="password" type="password" placeholder="Password (8+ characters)" minlength="8" required>
+
+          <select name="role">
+            <option value="Admin">Admin</option>
+            <option value="Member">Member</option>
+            <option value="Child">Child</option>
+          </select>
+          <button type="submit">Register</button>
+        </form>
+
+        <form id="loginForm">
+          <h3>Login</h3>
+          <input name="email" type="email" placeholder="Email address" required>
+          <input name="password" type="password" placeholder="Password" required>
+          <button type="submit">Login</button>
+        </form>
+
+      </div>
+    </section>
+
+    <!-- Main Dashboard -->
+    <div id="appSection" hidden>
+
+      <section class="panel">
+        <h2>Household Setup</h2>
+
+        <form id="houseForm">
+          <input name="name" placeholder="Household name" required>
+          <button type="submit">Create household</button>
+        </form>
+        <p id="houseInfo" class="hint">Create a household to begin.</p>
+      </section>
+
+      <section class="panel">
+        <h2>Rooms</h2>
+
+        <form id="roomForm">
+          <input name="name" placeholder="Room name, e.g. Living Room" required>
+          <button type="submit">Add room</button>
+        </form>
+
+        <ul id="roomList"></ul>
+      </section>
+
+      <section class="panel">
+        <h2>Add a Device</h2>
+        <form id="deviceForm">
+          <input name="name" placeholder="Device name" required>
+          <select name="type" required>
+            <option value="Lamp">Lamp</option>
+            <option value="Fan">Fan</option>
+            <option value="Thermostat">Thermostat</option>
+            <option value="AC">AC</option>
+            <option value="Heater">Heater</option>
+            <option value="Washing Machine">Washing Machine</option>
+            <option value="TV">TV</option>
+            <option value="Coffee Maker">Coffee Maker</option>
+            <option value="Door Lock">Door Lock</option>
+            <option value="Other">Other</option>
+          </select>
+
+          <select name="room" id="roomSelect" required>
+            <option value="">Choose room</option>
+          </select>
+
+          <input name="watts" type="number" min="0" value="100" placeholder="Power in watts">
+          <button type="submit">Create device</button>
+
+        </form>
+        <p class="hint">Devices must be connected before they can be toggled on.</p>
+      </section>
+
+      <section class="panel">
+        <div class="section-heading">
+          <h2>Appliance Dashboard</h2>
+          <button id="refreshBtn" type="button">Refresh</button>
+        </div>
+        <div id="summary"></div>
+        <div id="deviceList" class="device-grid"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Routines</h2>
+
+        <form id="routineForm">
+          <input name="name" placeholder="Routine name" required>
+          <input name="time" type="time" required>
+          <select name="device" id="routineDevice" required>
+            <option value="">Choose device</option>
+          </select>
+
+          <select name="power">
+            <option value="true">Turn on</option>
+            <option value="false">Turn off</option>
+          </select>
+
+          <button type="submit">Create daily routine</button>
+        </form>
+
+        <ul id="routineList"></ul>
+      </section>
+
+      <section class="panel">
+
+        <h2>Device Groups</h2>
+        <form id="groupForm">
+
+          <input name="name" placeholder="Group name" required>
+          <select name="devices" id="groupDevices" multiple required></select>
+          <button type="submit">Create group</button>
+        </form>
+        <div id="groupList" class="device-grid"></div>
+      </section>
+
+      <section class="panel">
+        <h2>Voice Control</h2>
+
+        <form id="voiceForm">
+          <input name="command" placeholder="e.g. Turn off all lights" required>
+          <button type="submit">Run command</button>
+        </form>
+
+        <p class="hint">Try: "Turn on all lights", "Turn off all fans", or "Turn off all appliances".</p>
+      </section>
+
+      <section class="panel">
+        <h2>Emergency Mode</h2>
+        <p class="hint">Simulates switching appliances off and securing the house.</p>
+        <div style="display: flex; gap: 10px; margin-top: 10px;">
+          <button id="emergencyBtn" class="danger">Activate emergency mode</button>
+          <button id="stopEmergencyBtn">Deactivate emergency mode</button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Energy Report</h2>
+
+        <button id="energyBtn">Load energy report</button>
+        <div id="energyReport"></div>
+
+        <h3 style="margin-top: 16px;">Recommendations</h3>
+        <button id="tipsBtn">Get recommendations</button>
+        <ul id="tipsList"></ul>
+      </section>
+
+      <section class="panel">
+        <h2>Usage Predictions</h2>
+        <button id="predictionBtn">Find usage patterns</button>
+        <ul id="predictionList"></ul>
+      </section>
+
+      <section class="panel">
+        <h2>System Alerts</h2>
+        <button id="alertsBtn">Load alerts</button>
+        <ul id="alertList"></ul>
+      </section>
+
+      <section class="panel">
+        <h2>Household Members</h2>
+
+        <form id="memberForm">
+          <input name="email" type="email" placeholder="Member's registered email" required>
+          <select name="role">
+            <option value="Member">Member</option>
+            <option value="Child">Child</option>
+          </select>
+          <button type="submit">Add member</button>
+        </form>
+        
+        <ul id="memberList"></ul>
+      </section>
+    </div>
+
+    <p id="message" role="status"></p>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
